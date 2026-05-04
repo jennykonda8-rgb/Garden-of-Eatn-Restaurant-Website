@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>The Garden of Eat’n</title>
+    <style>
+        /* Reset */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background: #f6f9f7;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3b6e3b;
+        }
+
+        header {
+            background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1350&q=80') no-repeat center/cover;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+        }
+
+        header h1 {
+            font-size: 4rem;
+            margin: 0 0 10px;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            margin: 0 0 20px;
+        }
+
+        header button {
+            background: #4caf50;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        header button:hover {
+            background: #3b6e3b;
+        }
+
+        nav {
+            background: #3b6e3b;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #3b6e3b;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+
+        /* Menu Section */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .menu-item {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(0 0 0 / 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-item img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            height: 160px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h3 {
+            margin: 0 0 8px;
+            color: #2a4d2a;
+        }
+
+        .menu-item p {
+            flex-grow: 1;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .menu-item .price {
+            font-weight: 700;
+            color: #4caf50;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-item button {
+            background: #4caf50;
+            border: none;
+            padding: 10px;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .menu-item button:hover {
+            background: #3b6e3b;
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .gallery-grid img {
+            width: 100%;
+            border-radius: 10px;
+            object-fit: cover;
+            height: 180px;
+            box-shadow: 0 3px 6px rgb(0 0 0 / 0.15);
+        }
+
+        /* Reservation Form */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #3b6e3b;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 12px 10px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1.8px solid #c4c4c4;
+            font-size: 1rem;
+        }
+
+        form button {
+            width: 100%;
+            background: #4caf50;
+            border: none;
+            padding: 15px;
+            color: white;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        form button:hover {
+            background: #3b6e3b;
+        }
+
+        /* Contact Section */
+        .contact-info {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-info p {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+
+        iframe {
+            width: 100%;
+            height: 320px;
+            border: none;
+            border-radius: 15px;
+            margin-top: 20px;
+            box-shadow: 0 3px 10px rgb(0 0 0 / 0.15);
+        }
+
+        /* Cart Modal */
+        #cartModal {
+            display: none;
+            position: fixed;
+            z-index: 150;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #cartModal .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 400px;
+            width: 90%;
+            padding: 30px;
+            box-shadow: 0 6px 15px rgb(0 0 0 / 0.25);
+            position: relative;
+        }
+
+        #cartModal .modal-content h3 {
+            margin-top: 0;
+            color: #3b6e3b;
+        }
+
+        #cartModal .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            cursor: pointer;
+            color: #3b6e3b;
+        }
+
+        #cartItems {
+            margin: 20px 0;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        #cartItems p {
+            margin: 8px 0;
+            font-weight: 600;
+        }
+
+        #cartModal button.pay-btn {
+            background: #4caf50;
+            border: none;
+            color: white;
+            padding: 12px 0;
+            width: 100%;
+            font-weight: 700;
+            border-radius: 30px;
+            cursor: pointer;
+        }
+
+        #cartModal button.pay-btn:hover {
+            background: #3b6e3b;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2.8rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>The Garden of Eat’n</h1>
+        <p>Delight in every bite, a feast for all tastes.</p>
+        <button onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book a Table</button>
+    </header>
+
+    <nav>
+        <a href="#menu">Menu</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#booking">Reservation</a>
+        <a href="#order">Order & Pay</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <main>
+
+        <section id="menu">
+            <h2>Our Menu</h2>
+            <div class="menu-grid">
+                <!-- Sample Menu Items -->
+                <div class="menu-item" data-name="Caesar Salad" data-price="8.99">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=600&q=80" alt="Caesar Salad" />
+                    <h3>Caesar Salad</h3>
+                    <p>Crisp romaine lettuce with parmesan, croutons, and Caesar dressing.</p>
+                    <div class="price">$8.99</div>
+                    <button onclick="addToCart('Caesar Salad', 8.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item" data-name="Grilled Salmon" data-price="16.99">
+                    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" alt="Grilled Salmon" />
+                    <h3>Grilled Salmon</h3>
+                    <p>Fresh Atlantic salmon grilled to perfection with lemon butter.</p>
+                    <div class="price">$16.99</div>
+                    <button onclick="addToCart('Grilled Salmon', 16.99)">Add to Cart</button>
+                </div>
+                <div class="menu-item" data-name="Chocolate Lava Cake" data-price="7.50">
+                    <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=600&q=80" alt="Chocolate Lava Cake" />
+                    <h3>Chocolate Lava Cake</h3>
+                    <p>Warm chocolate cake with a gooey molten center, served with vanilla ice cream.</p>
+                    <div class="price">$7.50</div>
+                    <button onclick="addToCart('Chocolate Lava Cake', 7.50)">Add to Cart</button>
+                </div>
+                <div class="menu-item" data-name="Margarita Pizza" data-price="13.50">
+                    <img src="https://images.unsplash.com/photo-1548365328-ef7e91a3e40d?auto=format&fit=crop&w=600&q=80" alt="Margarita Pizza" />
+                    <h3>Margarita Pizza</h3>
+                    <p>Classic pizza with tomato, mozzarella, fresh basil, and olive oil.</p>
+                    <div class="price">$13.50</div>
+                    <button onclick="addToCart('Margarita Pizza', 13.50)">Add to Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery">
+            <h2>Gallery</h2>
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=800&q=80" alt="Restaurant Interior" />
+                <img src="https://images.unsplash.com/photo-1543352634-8ef285f7b330?auto=format&fit=crop&w=800&q=80" alt="Food Platter" />
+                <img src="https://images.unsplash.com/photo-1553621042-f6e147245754?auto=format&fit=crop&w=800&q=80" alt="Dessert" />
+                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=800&q=80" alt="Grilled Salmon" />
+            </div>
+        </section>
+
+        <section id="booking">
+            <h2>Book a Table</h2>
+            <form id="bookingForm">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Your full name" />
+
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com" />
+
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" name="phone" required placeholder="+1234567890" />
+
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required min="" />
+
+                <label for="time">Time</label>
+                <input type="time" id="time" name="time" required />
+
+                <label for="party">Party Size</label>
+                <select id="party" name="party" required>
+                    <option value="" disabled selected>Select number of people</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6+</option>
+                </select>
+
+                <button type="submit">Confirm Booking</button>
+            </form>
+        </section>
+
+        <section id="order">
+            <h2>Order & Pay</h2>
+            <p style="text-align:center; max-width:600px; margin:auto; margin-bottom:30px; color:#555;">Add your favorite dishes to the cart and proceed to payment.</p>
+            <div style="text-align:center;">
+                <button onclick="openCart()">View Cart (<span id="cartCount">0</span>)</button>
+            </div>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <div class="contact-info">
+                <p><strong>Address:</strong> 123 Garden Lane, Foodville</p>
+                <p><strong>Phone:</strong> +1 (555) 123-4567</p>
+                <p><strong>Email:</strong> contact@gardeneatn.com</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0197005563697!2d-122.41941508468143!3d37.774929779759095!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80858064b9c6a0b7%3A0xf8c35eb7f1e70d12!2sSan%20Francisco%20City%20Hall!5e0!3m2!1sen!2sus!4v1594923607893!5m2!1sen!2sus" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </section>
+    </main>
+
+    <!-- Cart Modal -->
+    <div id="cartModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeCart()">&times;</span>
+            <h3>Your Cart</h3>
+            <div id="cartItems"></div>
+            <button class="pay-btn" onclick="checkout()">Proceed to Payment</button>
+        </div>
+    </div>
+
+    <script>
+        // Set min date for booking to today
+        const dateInput = document.getElementById('date');
+        const today = new Date().toISOString().split('T')[0];
+        dateInput.setAttribute('min', today);
+
+        // Booking form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you, ' + this.name.value + '! Your table has been booked for ' + this.date.value + ' at ' + this.time.value + '.');
+            this.reset();
+        });
+
+        // Simple cart system
+        const cart = [];
+
+        function addToCart(name, price) {
+            cart.push({
+                name,
+                price
+            });
+            updateCartCount();
+            alert(name + ' added to cart!');
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').innerText = cart.length;
+        }
+
+        function openCart() {
+            const cartModal = document.getElementById('cartModal');
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p>Your cart is empty.</p>';
+            } else {
+                let total = 0;
+                cart.forEach((item, i) => {
+                    total += item.price;
+                    cartItems.innerHTML += `<p>${item.name} - $${item.price.toFixed(2)}</p>`;
+                });
+                cartItems.innerHTML += `<hr><p><strong>Total: $${total.toFixed(2)}</strong></p>`;
+            }
+            cartModal.style.display = 'flex';
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').style.display = 'none';
+        }
+
+        // Stripe Checkout Demo (test mode)
+        async function checkout() {
+                if (cart.length === 0) {
+                    alert('Your cart is empty!');
+                    return;
+                }
+                // In production, you'd send cart info to
